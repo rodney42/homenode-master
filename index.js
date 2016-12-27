@@ -2,7 +2,7 @@ var express     = require('express');
 var app         = express();
 var http        = require('http').Server(app);
 var log         = require('./log.js')('homenode-master');
-var api		      = require('express-yourself');
+var api		      = require('node-express-yourself');
 var nodekeeper  = require('./services/nodekeeper.js')(api,app);
 var ssdp        = require('./ssdp-advertise.js');
 
