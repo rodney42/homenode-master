@@ -1,5 +1,5 @@
 var SSDP        = require('node-ssdp').Server;
-var log         = require('./log.js')('homenode-master');
+var log         = require('./log.js')('ssdp');
 
 module.exports.start = function(config) {
   var server = new SSDP({
@@ -11,13 +11,13 @@ module.exports.start = function(config) {
   server.addUSN('urn:homenode:device:Master:1')
 
   server.on('advertise-alive', function (heads) {
-    console.log('advertise-alive', heads)
+    log.debug('advertise-alive', heads)
     // Expire old devices from your cache.
     // Register advertising device somewhere (as designated in http headers heads)
   })
 
   server.on('advertise-bye', function (heads) {
-    console.log('advertise-bye', heads)
+    log.debug('advertise-bye', heads)
     // Remove specified device from cache.
   })
 

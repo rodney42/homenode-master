@@ -4,7 +4,7 @@ var http        = require('http');
 module.exports = init;
 
 var nodes = [];
-var masterid = 'examplemaster';
+var masterid = 'master';
 
 function findNode(id) {
   for( var n=0; n<nodes.length; n++) {
@@ -73,7 +73,12 @@ function init(api,app) {
   }
 
   var notify = function(req,res) {
-    log.info('Notify '+req);
+    //log.info('Notify '+req);
+    log.obj(req.body);
+    var payload = req.body;
+    log.obj(payload);
+    log.info('Notify type '+payload.type);
+
     res.sendStatus(200);
   }
 
@@ -101,9 +106,9 @@ function init(api,app) {
     keeper : {
       endpoints : {
         register : {
+          method : 'GET',
           description : 'Register a new node',
-          use : registerNode,
-          method : 'POST'
+          use : registerNode
         },
         list : {
           path : '',
@@ -111,13 +116,15 @@ function init(api,app) {
           use : listNodes
         },
         notify : {
+          method : 'POST',
           path : 'notify',
-          description : 'Notify about a device change',
+          description : 'Notify about a device change or device event',
           use : notify
         }
       }
     }
   }
+
   // Enable REST endpoints
   api.use(app,def);
 
